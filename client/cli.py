@@ -3,11 +3,11 @@ import sys
 import time
 
 def main():
-
+    # chekc if proper arguments are there
     if len(sys.argv) != 3:
         print("Incorrect number of arguments")
         return
-    
+    # gather arguments and convert type if necessary
     SERVER_IP = sys.argv[1]
     PORT_NUM = sys.argv[2]
     PORT_NUM = int(PORT_NUM)
@@ -20,10 +20,13 @@ def main():
 
     # Client Loop
     while True:
+        # gather user input
         client_input = input("ftp>")
+        # send input to server
         client_socket.send(client_input.encode())
-
+        # split command into tokens
         command = client_input.split()
+        # execute proper case based off of input
         if command[0] == "get":
             if len(command) == 1:
                 print("Missing file name")
@@ -39,23 +42,28 @@ def main():
             print(msg.decode(), end="")
         elif client_input == 'quit':
             break
-
+    # close connection
     print("  Goodbye")
     client_socket.close()
     return
 
+# get
 def get(client_socket, file_name:str):
     print("  Getting " + file_name)
+    # open file
     file = open(file_name, "wb")
+    # recieve data from server
     while True:
         msg = client_socket.recv(1024)
         file.write(msg)
+        # if message is less than 1024 bytes, 
         if len(msg) < 1024:
             break
     file.close()
-    
+# put    
 def put(client_socket, file_name:str):
     print("  Sending:" + file_name)
+    # 
     file = open(file_name, 'rb')
     while True:
         buf = file.read(1024)

@@ -30,3 +30,4 @@ Current issues
   -handling files with spaces in name
   -any sort of packet loss
   -both server and client handle input breakdown(can probably remove some of the servers error checking for the input)
+  -move server files into a seperate directory below the serv.py
