@@ -79,7 +79,7 @@ def get(client_socket, file_name:str,BUFF_SIZE):
     while True:
         print("    Sending packet")
         buf = file.read(BUFF_SIZE)
-        time.sleep(0.005)
+        time.sleep(0.05)
         client_socket.send(buf)
         # if buffer is empty, file is completley read
         if len(buf) < BUFF_SIZE:
