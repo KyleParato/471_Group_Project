@@ -13,7 +13,11 @@ def main():
     PORT_NUM = sys.argv[1]
     PORT_NUM = int(PORT_NUM)
 
+    # Default server IP
     SERVER_IP = "127.0.0.1"
+
+    # Buffer Size for sending data, must be same size as client
+    BUFF_SIZE = 65000
 
     # Set up sever, tcp, ip is local host, 100 connection queue, add a timeout
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -48,13 +52,13 @@ def main():
                     print("  Missing file name")
                     continue
                 print("  " + command[1])
-                get(client_socket=client_socket,file_name=command[1])
+                get(client_socket=client_socket,file_name=command[1],BUFF_SIZE=BUFF_SIZE)
             # put case
             elif command[0] == "put":
                 if len(command) == 1:
                     print("  Missing file name")
                     continue
-                put(client_socket=client_socket, file_name=command[1])
+                put(client_socket=client_socket, file_name=command[1],BUFF_SIZE=BUFF_SIZE)
             # list case
             elif command[0] == "ls":
                 print("  Recieved command ls")
@@ -67,36 +71,36 @@ def main():
         client_socket.close()
     
 # get
-def get(client_socket, file_name:str):
+def get(client_socket, file_name:str,BUFF_SIZE):
     print("    Starting get: " + file_name)
     # open file
     file = open(file_name, "rb")
     # read file in 1024 bytes and send to client
     while True:
         print("    Sending packet")
-        buf = file.read(1024)
+        buf = file.read(BUFF_SIZE)
         time.sleep(0.005)
         client_socket.send(buf)
         # if buffer is empty, file is completley read
-        if len(buf) < 1024:
+        if len(buf) < BUFF_SIZE:
             break
     # close file
     file.close()
     print("    Complete")
 
 # put
-def put(client_socket, file_name:str):
+def put(client_socket, file_name:str,BUFF_SIZE):
     print("    Starting put: " + file_name)
     # open file
     file = open(file_name, "wb")
     # wiat for packets from client, write to file
     while True:
         print("    Recieveing packet")
-        msg = client_socket.recv(1024)
+        msg = client_socket.recv(BUFF_SIZE)
         print("      got it")
         file.write(msg)
         # if recieved message is less than 1024, end of file
-        if len(msg) < 1024:
+        if len(msg) < BUFF_SIZE:
             break 
     # close file and exit
     file.close()
