@@ -70,7 +70,7 @@ def put(client_socket, file_name:str,BUFF_SIZE):
     file = open(file_name, 'rb')
     while True:
         buf = file.read(BUFF_SIZE)
-        time.sleep(0.005)
+        time.sleep(0.05)
         # print("    sending packet")
         client_socket.send(buf)
         # print("    Packet sent")
