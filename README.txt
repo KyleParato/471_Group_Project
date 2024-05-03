@@ -1,9 +1,9 @@
 Group 6:
   Name               Email
   Kyle Parato        kparato@csu.fullerton.edu
-  Jesus Lozano-Vega  
-  Matthew Lomelin    
-  Hunter Hughes      
+  Jesus Lozano-Vega  lozano1992@csu.fullerton.edu
+  Matthew Lomelin    matlom787@csu.fullerton.edu
+  Hunter Hughes      hhughes@csu.fullerton.edu
   
 Programming Language:
   Python3
